@@ -25,6 +25,10 @@ const timePerServing = recipe => {
   // that divides the recipe's cookingTime by its servings
 
   // YOUR CODE HERE
+  if (!recipe || recipe.cookingTime === undefined || recipe.servings === undefined || recipe.servings === 0) {
+    return 0;
+  }
+  return recipe.cookingTime / recipe.servings;
 };
 
 /**
@@ -45,6 +49,17 @@ const getStepsList = (recipe) => {
   // Return the formatted string
 
   // YOUR CODE HERE
+  if (!recipe.steps || recipe.steps.length === 0) {
+    return "No steps added yet";
+  }
+
+  let stepsList = '';
+
+  for (let i = 0; i < recipe.steps.length; i++) {
+    stepsList += `${i + 1}. ${recipe.steps[i]}\n`;
+  }
+
+  return stepsList;
 };
 
 /**
@@ -66,6 +81,16 @@ const getIngredientsList = (recipe) => {
   // Return the formatted string
 
   // YOUR CODE HERE
+  if (!recipe.ingredients || recipe.ingredients.length === 0) {
+    return "No ingredients added yet";
+  }
+
+  let ingredientsList = '';
+  for (const ingredient of recipe.ingredients) {
+    ingredientsList += `- ${ingredient.amount} ${ingredient.unit} of ${ingredient.name}\n`;
+  }
+
+  return ingredientsList;
 };
 
 /**
@@ -87,6 +112,21 @@ function formatRecipe(recipe) {
   // Return the complete formatted string
 
   // YOUR CODE HERE
+  const ingredientsList = getIngredientsList(recipe);
+  const stepsList = getStepsList(recipe);
+
+  return `
+    Recipe: ${recipe.name}
+    Servings: for ${recipe.servings} people
+    Cooking time: ${recipe.cookingTime} minutes
+    Time per serving: ${timePerServing(recipe).toFixed(1)} minutes
+
+    Ingredients:
+    ${ingredientsList}
+
+    Steps:
+    ${stepsList}
+  `.trim();
 }
 
 /* c8 ignore start */
